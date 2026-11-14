@@ -84,6 +84,20 @@ try {
   check('all voice lines are downloaded', lines.loaded === lines.total && lines.total >= 140, `${lines.loaded}/${lines.total}`);
   check('she spoke her greeting', lines.decoded >= 1, `${lines.decoded} decoded`);
   check('microphone is listening', (await ev(() => window.__lumi.mimic.state)) === 'listening');
+  // going off screen must release the microphone, and coming back must pick it up again
+  const setHidden = (hidden) => ev((h) => {
+    Object.defineProperty(document, 'hidden', { configurable: true, get: () => h });
+    Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => (h ? 'hidden' : 'visible') });
+    document.dispatchEvent(new Event('visibilitychange'));
+  }, hidden);
+  await setHidden(true);
+  await sleep(300);
+  const hiddenMic = await ev(() => ({ state: window.__lumi.mimic.state, stream: !!window.__lumi.mimic.stream, audio: window.__lumi.audio.ctx.state }));
+  check('off screen: microphone released and sound paused', hiddenMic.state === 'off' && !hiddenMic.stream && hiddenMic.audio === 'suspended', JSON.stringify(hiddenMic));
+  await setHidden(false);
+  await sleep(1200);
+  const backMic = await ev(() => ({ state: window.__lumi.mimic.state, audio: window.__lumi.audio.ctx.state }));
+  check('back on screen: microphone and sound resume', backMic.state === 'listening' && backMic.audio === 'running', JSON.stringify(backMic));
   // the fake microphone beeps, so stop it from interrupting the rest of the test
   await ev(() => window.__lumi.store.set('mimic', false));
 

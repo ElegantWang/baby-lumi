@@ -89,3 +89,86 @@ test('steady background noise raises the bar instead of triggering', () => {
   feed(12, 0.012); // a fan, a car, a TV in the next room
   assert.deepEqual(events.filter((e) => e[0] === 'utterance'), []);
 });
+
+// ---- starting and stopping the microphone ----------------------------------------------
+
+/** A fake browser: getUserMedia waits until the test grants it, like a permission prompt. */
+function fakeBrowser() {
+  const requests = [];
+  const streams = [];
+  Object.defineProperty(globalThis.navigator, 'mediaDevices', {
+    configurable: true,
+    value: {
+      getUserMedia: () =>
+        new Promise((resolve, reject) => {
+          const track = { live: true, stop() { this.live = false; } };
+          const stream = { getTracks: () => [track], track };
+          requests.push({ grant: () => (streams.push(stream), resolve(stream)), deny: () => reject(new Error('denied')) });
+        }),
+    },
+  });
+  const node = () => ({ connect() {}, disconnect() {}, gain: { value: 1 } });
+  const engine = {
+    speaking: false,
+    ctx: { sampleRate: RATE, destination: {}, createGain: node, createMediaStreamSource: node, createScriptProcessor: node },
+  };
+  const live = () => streams.filter((s) => s.track.live).length;
+  return { mimic: new Mimic(engine), requests, streams, live };
+}
+const settle = () => new Promise((r) => setTimeout(r, 0));
+
+test('the microphone is released when stopped, and picked up again on start', async () => {
+  const { mimic, requests, live } = fakeBrowser();
+  mimic.start();
+  requests[0].grant();
+  await settle();
+  assert.equal(mimic.state, 'listening');
+  assert.equal(live(), 1);
+  mimic.stop();
+  assert.equal(mimic.state, 'off');
+  assert.equal(live(), 0, 'no microphone stays open after stop()');
+  mimic.start();
+  requests[1].grant();
+  await settle();
+  assert.equal(mimic.state, 'listening');
+  assert.equal(live(), 1);
+});
+
+test('stopping while the permission prompt is up never leaves the microphone open', async () => {
+  const { mimic, requests, live } = fakeBrowser();
+  mimic.start(); // prompt appears...
+  mimic.stop(); // ...and the app goes off screen before anyone answers
+  requests[0].grant();
+  await settle();
+  assert.equal(mimic.state, 'off');
+  assert.equal(live(), 0);
+});
+
+test('a late answer to an old prompt cannot steal the live microphone (hide/show during the prompt)', async () => {
+  const { mimic, requests, live } = fakeBrowser();
+  mimic.start(); // request #1: the permission prompt hides the app
+  mimic.stop(); // page hidden
+  mimic.start(); // page shown again: request #2
+  requests[0].grant(); // the old request is answered first
+  await settle();
+  requests[1].grant();
+  await settle();
+  assert.equal(mimic.state, 'listening');
+  assert.equal(live(), 1, 'exactly one microphone stream is open');
+  mimic.stop(); // and it really is the one that gets released
+  assert.equal(live(), 0, 'nothing is left recording after stop()');
+});
+
+test('a refused prompt is reported, but not if the request was already abandoned', async () => {
+  const a = fakeBrowser();
+  a.mimic.start();
+  a.requests[0].deny();
+  await settle();
+  assert.equal(a.mimic.state, 'denied');
+  const b = fakeBrowser();
+  b.mimic.start();
+  b.mimic.stop();
+  b.requests[0].deny();
+  await settle();
+  assert.equal(b.mimic.state, 'off');
+});

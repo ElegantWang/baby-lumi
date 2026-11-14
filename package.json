@@ -12,10 +12,15 @@
     "shot": "node tools/shot.mjs",
     "smoke": "node tools/smoke.mjs",
     "perf": "node tools/perf.mjs",
+    "deploy": "wrangler deploy",
+    "build:apk": "cd mobile && ./gradlew :androidApp:assembleRelease && mkdir -p ../dist && cp androidApp/build/outputs/apk/release/androidApp-release.apk ../dist/baby-lumi.apk && echo \"\nSigned APK: dist/baby-lumi.apk\"",
+    "build:ios": "cd mobile/iosApp && xcodebuild -project iosApp.xcodeproj -scheme iosApp -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath build/DerivedData build | tail -1",
+    "test:mobile": "cd mobile && ./gradlew :shared:testAndroidHostTest :shared:iosSimulatorArm64Test",
     "test": "node --test \"tests/*.test.mjs\""
   },
   "devDependencies": {
     "puppeteer-core": "^25.17.0",
-    "three": "^0.187.0"
+    "three": "^0.187.0",
+    "wrangler": "^4.162.0"
   }
 }

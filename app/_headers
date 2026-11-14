@@ -1,0 +1,5 @@
+# Lumi only ever needs her own microphone; nothing else on the device.
+/*
+  Permissions-Policy: microphone=(self), camera=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer

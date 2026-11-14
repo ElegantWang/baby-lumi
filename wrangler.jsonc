@@ -1,0 +1,10 @@
+{
+  // Lumi is a static site: Cloudflare serves the app/ folder straight from its
+  // edge network, so no Worker code is needed. Deploy with: npm run deploy
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "baby-lumi",
+  "compatibility_date": "2026-11-14",
+  "assets": {
+    "directory": "./app"
+  }
+}

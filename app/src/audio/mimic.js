@@ -20,6 +20,7 @@ export class Mimic {
     this.onUtterance = () => {};
     this.onState = () => {};
     this.level = 0;
+    this.ticket = 0;
     this.#reset();
     this.floor = 0.004;
     this.ring = [];
@@ -52,36 +53,52 @@ export class Mimic {
       return;
     }
     this.#setState('starting');
+    // Every start() gets a ticket; stop() and later start()s make older tickets stale.
+    // A permission prompt can take a long time, and the page may be hidden and shown
+    // again meanwhile: a stale request must let its own microphone go, never keep it.
+    const ticket = ++this.ticket;
+    const current = () => ticket === this.ticket && this.state === 'starting';
+    let stream;
     try {
-      this.stream = await navigator.mediaDevices.getUserMedia({
+      stream = await navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 },
       });
     } catch {
-      this.#setState('denied');
+      if (current()) this.#setState('denied');
       return;
     }
+    if (!current()) {
+      stream.getTracks().forEach((t) => t.stop());
+      return;
+    }
+    this.stream = stream;
     const c = this.engine.ctx;
-    this.source = c.createMediaStreamSource(this.stream);
+    let node;
+    try {
+      if (!c.audioWorklet) throw new Error('no worklet');
+      await c.audioWorklet.addModule(new URL('./recorder-worklet.js', import.meta.url));
+      if (!current()) return; // stop() already released the stream
+      node = new AudioWorkletNode(c, 'lumi-recorder', { numberOfInputs: 1, numberOfOutputs: 1, channelCount: 1 });
+      node.port.onmessage = (e) => this.feed(e.data);
+    } catch {
+      if (!current()) return;
+      // older browsers
+      node = c.createScriptProcessor(1024, 1, 1);
+      node.onaudioprocess = (e) => this.feed(new Float32Array(e.inputBuffer.getChannelData(0)));
+    }
+    this.node = node;
+    this.source = c.createMediaStreamSource(stream);
     const sink = c.createGain();
     sink.gain.value = 0; // keeps the graph pulling without making sound
     sink.connect(c.destination);
     this.sink = sink;
-    try {
-      if (!c.audioWorklet) throw new Error('no worklet');
-      await c.audioWorklet.addModule(new URL('./recorder-worklet.js', import.meta.url));
-      this.node = new AudioWorkletNode(c, 'lumi-recorder', { numberOfInputs: 1, numberOfOutputs: 1, channelCount: 1 });
-      this.node.port.onmessage = (e) => this.feed(e.data);
-    } catch {
-      // older browsers
-      this.node = c.createScriptProcessor(1024, 1, 1);
-      this.node.onaudioprocess = (e) => this.feed(new Float32Array(e.inputBuffer.getChannelData(0)));
-    }
-    this.source.connect(this.node);
-    this.node.connect(sink);
+    this.source.connect(node);
+    node.connect(sink);
     this.#setState('listening');
   }
 
   stop() {
+    this.ticket++; // any start() still waiting on a permission prompt is now stale
     try {
       this.source?.disconnect();
       this.node?.disconnect();

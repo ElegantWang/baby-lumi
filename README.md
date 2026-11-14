@@ -90,6 +90,89 @@ pages, so Lumi will not be able to copy voices.)
 Tip: on iPad, *Guided Access* (Settings → Accessibility) keeps little hands
 inside the app.
 
+## Phone and tablet apps (Android and iOS)
+
+`mobile/` is a **Kotlin Multiplatform** project that turns Lumi into real
+Android and iOS apps. Both carry the whole web app inside them, so they work
+offline from the very first launch and never touch the internet (the Android
+app doesn't even have the internet permission). The only permission either asks
+for is the microphone, for "say it back".
+
+```
+mobile/
+  shared/        Kotlin shared by both apps
+    commonMain/    how the bundled web app is served, navigation and microphone
+                   rules, and the bridge between the page and the device
+    androidMain/   LumiActivity: the Android host (WebView)
+    iosMain/       LumiViewController: the iOS host (WKWebView), compiled to Shared.framework
+  androidApp/    the Android app: icons, theme, signing; MainActivity is one line
+  iosApp/        the iOS app: iosApp.xcodeproj, a few lines of Swift, icon, Info.plist
+```
+
+The web files are copied in from `app/` on every build, so changes to Lumi only
+need a rebuild. Both apps run full screen, don't let a stray swipe or the back
+button take a child out of the app, keep the screen awake while Lumi is up, and
+release the microphone and pause sound whenever they leave the screen.
+
+### Android
+
+```sh
+npm run build:apk        # → dist/baby-lumi.apk (signed, ready to install)
+```
+
+Android 7.0 or newer with an up-to-date "Android System WebView". Copy the APK
+to the device and open it (Android asks once to allow installs from that app),
+or with the device on USB: `adb install dist/baby-lumi.apk`. Raise
+`versionCode` in `mobile/androidApp/build.gradle.kts` for each release you hand
+out, so it installs as an update.
+
+For Google Play, build an app bundle instead with
+`cd mobile && ./gradlew :androidApp:bundleRelease` (Play also asks you to enroll
+in Play App Signing, using this key as the upload key).
+
+### iOS (iPhone and iPad)
+
+Open `mobile/iosApp/iosApp.xcodeproj` in Xcode and press Run. The first build
+compiles the shared Kotlin (a few minutes); later builds are quick. iOS 16.4 or
+newer.
+
+- **Simulator:** works as is (`npm run build:ios` builds it from the command line).
+- **Your own iPhone or iPad:** select the *iosApp* target → *Signing &
+  Capabilities* → choose your **Team** (a free Apple ID works for your own
+  devices; installs made that way expire after 7 days). Plug the device in, pick
+  it as the run destination, and press Run.
+- **App Store / TestFlight:** needs a paid Apple Developer account, then
+  *Product → Archive*.
+
+### Tests
+
+```sh
+npm run test:mobile      # shared Kotlin tests, on the Android side and in the iOS simulator
+```
+
+In development builds, the page can be inspected with Chrome's
+`chrome://inspect` (Android) or Safari's Develop menu (iOS); release builds
+don't allow this. Both apps log what the page reports (secure context, WebGL 2,
+microphone support, any script errors) to Logcat / the Xcode console under
+"Lumi".
+
+### The Android signing key (keep it safe)
+
+The APK is signed with `mobile/keystore/lumi-release.jks`; its password is in
+`mobile/keystore.properties`. Both are deliberately left out of git.
+
+**Back both files up somewhere private.** Android only accepts an update if it
+is signed with the same key as the installed app: without this key, a new
+version can't be installed over the old one (it has to be uninstalled first,
+which loses Lumi's settings), and you can't publish updates on Google Play.
+
+- Key alias `lumi`, RSA 4096, valid until 2054
+- Certificate SHA-256:
+  `63:CE:67:0C:28:8C:66:37:77:7B:15:35:2D:CE:59:5C:26:7B:3C:7C:A7:DB:EB:10:EB:19:C7:CB:51:4A:1F:81`
+
+(iOS apps are signed by Xcode with your Apple account instead; there is no key
+file to keep for them.)
+
 ## How it is built
 
 No art assets were drawn or downloaded: everything is generated.
@@ -128,6 +211,7 @@ app/                the app itself (static files; deploy this folder)
     brain/          behaviour and saved settings
     props/          snacks, bubbles, butterfly, flowers
     fx/, input/, ui/
+mobile/             Android and iOS apps (Kotlin Multiplatform)
 tools/              asset builders and developer tools
 tests/              unit and behaviour tests
 ```

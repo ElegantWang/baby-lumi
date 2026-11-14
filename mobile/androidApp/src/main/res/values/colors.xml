@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- the same soft sky blue the web app fades in from -->
+    <color name="sky">#FFBFE3F2</color>
+</resources>

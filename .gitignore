@@ -1,3 +1,40 @@
+# ---- secrets: never commit these ----------------------------------------------
+# Android signing key and its password (keep a private backup of mobile/keystore/!)
+mobile/keystore/
+mobile/keystore.properties
+# safety nets, wherever such files end up
+*.jks
+*.keystore
+keystore.properties
+*.p12
+*.mobileprovision
+*.pem
 .cert/
+.env
+.env.*
+.dev.vars
+
+# ---- dependencies and build output --------------------------------------------
 node_modules/
+dist/
+
+# Cloudflare Wrangler's local state
+.wrangler/
+
+# Kotlin Multiplatform / Gradle (mobile/)
+.gradle/
+.kotlin/
+build/
+local.properties
+
+# Xcode (mobile/iosApp)
+xcuserdata/
+DerivedData/
+*.xcworkspace/xcuserdata/
+
+# ---- editors and OS -------------------------------------------------------------
 .DS_Store
+.idea/
+*.iml
+*.log
+npm-debug.log*

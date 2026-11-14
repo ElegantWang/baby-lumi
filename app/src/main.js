@@ -139,10 +139,20 @@ store.onChange((key, value) => {
 });
 
 let last = performance.now();
+// Whenever Lumi is off screen: no sound, and the microphone is let go (so the
+// device's "mic in use" indicator goes out). Both come back when she returns.
+let micWasOn = false;
 document.addEventListener('visibilitychange', () => {
   audio.setSuspended(document.hidden);
   last = performance.now();
-  if (!document.hidden && brain.mode === 'awake') setScreenAwake(true); // the lock is dropped whenever the page is hidden
+  if (document.hidden) {
+    micWasOn = mimic.state === 'listening' || mimic.state === 'starting';
+    if (micWasOn) mimic.stop();
+  } else {
+    if (micWasOn && store.settings.mimic && audio.unlocked) mimic.start();
+    micWasOn = false;
+    if (brain.mode === 'awake') setScreenAwake(true); // the lock is dropped whenever the page is hidden
+  }
 });
 
 // ---- debug / test hooks (URL parameters) -----------------------------------------
@@ -150,6 +160,7 @@ const views = {
   front: [[0, 0.1, 1], 4.6, 0.68], 34: [[0.7, 0.2, 1], 4.6, 0.68], side: [[1, 0.1, 0], 4.6, 0.68],
   back: [[0.35, 0.2, -1], 4.6, 0.68], face: [[0, 0.04, 1], 2.3, 0.77], face34: [[0.6, 0.1, 1], 2.3, 0.77],
   icon: [[0.12, 0.06, 1], 2.75, 0.84],
+  iconwide: [[0.12, 0.06, 1], 4.0, 0.8], // for Android adaptive icons, which crop to the middle
 };
 if (views[params.get('view')]) {
   const [dir, dist, y] = views[params.get('view')];
@@ -192,6 +203,11 @@ const mouth = new THREE.Vector3();
 // Keep the screen awake while Lumi is up and playing; let it sleep when she naps.
 let wakeLock = null;
 async function setScreenAwake(on) {
+  // inside the Android app, the native wrapper keeps the screen on for us
+  if (window.LumiNative?.keepScreenOn) {
+    window.LumiNative.keepScreenOn(on);
+    return;
+  }
   try {
     if (on && !wakeLock && navigator.wakeLock && !document.hidden) {
       wakeLock = await navigator.wakeLock.request('screen');
@@ -263,7 +279,8 @@ requestAnimationFrame(() =>
 );
 
 // ---- offline support -------------------------------------------------------------------
+// (not needed inside the Android app, which carries every file with it)
 const local = ['localhost', '127.0.0.1'].includes(location.hostname);
-if ('serviceWorker' in navigator && (!local || params.has('sw'))) {
+if ('serviceWorker' in navigator && !window.LumiNative && (!local || params.has('sw'))) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
