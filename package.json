@@ -1,0 +1,21 @@
+{
+  "name": "lumi-companion",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Lumi — a gentle talking companion for little kids",
+  "scripts": {
+    "start": "node server.mjs",
+    "start:https": "node server.mjs --https",
+    "build:character": "node tools/build-character.mjs",
+    "build:voice": "node tools/build-voice.mjs",
+    "shot": "node tools/shot.mjs",
+    "smoke": "node tools/smoke.mjs",
+    "perf": "node tools/perf.mjs",
+    "test": "node --test \"tests/*.test.mjs\""
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.17.0",
+    "three": "^0.187.0"
+  }
+}

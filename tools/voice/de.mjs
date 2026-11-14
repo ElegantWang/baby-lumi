@@ -1,0 +1,82 @@
+// Deutsch.
+export default {
+  intro: ['Hallo! Ich bin Lumi!'],
+  hello: ['Hallo, hallo!', 'Hallo, du!', 'Juhu! Du bist da!', 'Hallo! Ich hab dich vermisst!'],
+  wake: ['Guten Morgen!', 'Oh! Hallo!', 'Ich bin wach!'],
+  morning: ['Guten Morgen, Sonnenschein!'],
+
+  pet: ['Das fühlt sich schön an.', 'Ich liebe Kuscheln!', 'So gemütlich.', 'Mehr, bitte!'],
+  tickle: ['Das kitzelt!', 'Kille, kille!', 'Du hast mich erwischt!', 'Hör auf! Das kitzelt!'],
+  nose: ['Stups!', 'Das ist meine Nase!', 'Piep, piep!', 'Du hast meine Nase gestupst!'],
+  ears: ['Das sind meine Ohren!', 'Wackel, wackel!', 'Meine Ohren sind so lang!'],
+  feet: ['Das sind meine Zehen!', 'Kitzelfüße!', 'Meine Füße!'],
+  hands: ['Gib mir fünf!', 'Das ist meine Hand!', 'Juhu! Gib mir fünf!'],
+  tail: ['Das ist mein Schwänzchen!', 'Mein flauschiges Schwänzchen!'],
+  cheeks: ['Meine Bäckchen!', 'Weiche Bäckchen!'],
+  head: ['Das ist mein Kopf!', 'Streichel, streichel!'],
+
+  name_nose: ['Das ist meine Nase!'],
+  name_ears: ['Das sind meine Ohren!'],
+  name_tummy: ['Das ist mein Bauch!'],
+  name_feet: ['Das sind meine Füße!'],
+  name_tail: ['Das ist mein Schwänzchen!'],
+  name_hands: ['Das ist meine Hand!'],
+  name_head: ['Das ist mein Kopf!'],
+  name_cheeks: ['Das sind meine Bäckchen!'],
+
+  love: ['Ich hab dich lieb!', 'Ich hab dich ganz doll lieb!', 'Dicke Umarmung!', 'Du bist mein Lieblingsmensch!'],
+  yay: ['Juhu!', 'Hurra!', 'Das macht Spaß!', 'Nochmal! Nochmal!', 'Super!'],
+  wow: ['Wow!', 'Oh, wie schön!', 'Schau mal!'],
+  kind: ['Du bist so lieb.', 'Ich spiele gern mit dir.', 'Mit dir bin ich glücklich.'],
+  excuse: ['Entschuldigung!', 'Hoppla! Gesundheit!'],
+  dizzy: ['Hui! Mir ist schwindelig!'],
+  spin: ['Rundherum, rundherum!', 'Ich drehe mich!'],
+  jump: ['Hüpf!', 'Hoch, hoch, hoch!'],
+
+  hungry: ['Ich habe Hunger!', 'Mein Bauch knurrt.'],
+  snack_please: ['Kann ich bitte etwas zu essen haben?'],
+  yum: ['Lecker!', 'Mmh, köstlich!', 'Mjam, mjam, mjam!', 'Danke! Das war lecker!'],
+  apple: ['Ein Apfel!'],
+  strawberry: ['Eine Erdbeere!'],
+  carrot: ['Eine Karotte!'],
+  cookie: ['Ein Keks!'],
+
+  sleepy: ['Ich bin so müde.', 'Zeit für ein Nickerchen.'],
+  night: ['Gute Nacht! Träum schön.', 'Schlaf gut.', 'Der Mond ist da. Zeit zum Schlafen.'],
+
+  dance: ['Lass uns tanzen!', 'Tanz mit mir!'],
+  sing: ['Lass uns singen!', 'Sing mit mir!'],
+  bored: ['Bist du da?', 'Hallo? Komm spielen!', 'Ich warte auf dich.'],
+
+  find_nose: ['Wo ist meine Nase?'],
+  find_ears: ['Wo sind meine Ohren?'],
+  find_tummy: ['Kannst du meinen Bauch kitzeln?'],
+  find_feet: ['Kannst du meine Zehen berühren?'],
+  find_tail: ['Wo ist mein Schwänzchen?'],
+  find_hands: ['Gibst du mir fünf?'],
+  find_head: ['Kannst du meinen Kopf streicheln?'],
+  found: ['Gefunden!', 'Gut gemacht!', 'Genau!', 'Du hast es geschafft!', 'Super gemacht!'],
+  retry: ["Hoppla! Versuch's nochmal!", "Fast. Versuch's nochmal!"],
+
+  peek: ['Kuckuck,'],
+  boo: ['Da bin ich!'],
+
+  count_intro: ['Lass uns zählen!', 'Zähl mit mir!'],
+  n1: ['Eins!'], n2: ['Zwei!'], n3: ['Drei!'], n4: ['Vier!'], n5: ['Fünf!'],
+  n6: ['Sechs!'], n7: ['Sieben!'], n8: ['Acht!'], n9: ['Neun!'], n10: ['Zehn!'],
+  count_done: ['Wir haben alle gezählt!', 'Toll gezählt!'],
+
+  bubbles: ['Seifenblasen!', 'Lass die Blasen platzen!', 'Plopp, plopp, plopp!'],
+  red: ['Rot!'], blue: ['Blau!'], yellow: ['Gelb!'], green: ['Grün!'],
+  pink: ['Rosa!'], purple: ['Lila!'], orange: ['Orange!'],
+
+  butterfly: ['Ein Schmetterling!', 'Hallo, Schmetterling!'],
+  flower: ['Eine Blume!', 'Wie schön!'],
+  star: ['Eine Sternschnuppe!', 'Funkel, funkel, kleiner Stern!', 'Wünsch dir was!'],
+
+  cow_q: ['Wie macht die Kuh?'], cow_a: ['Muh!'],
+  duck_q: ['Wie macht die Ente?'], duck_a: ['Quak, quak!'],
+  cat_q: ['Wie macht die Katze?'], cat_a: ['Miau!'],
+  dog_q: ['Wie macht der Hund?'], dog_a: ['Wau, wau!'],
+  sheep_q: ['Wie macht das Schaf?'], sheep_a: ['Mäh!'],
+};

@@ -1,0 +1,82 @@
+// Français. « Loumi » est écrit phonétiquement pour que la voix dise bien « lou-mi ».
+export default {
+  intro: ["Coucou ! Je m'appelle Loumi !"],
+  hello: ['Coucou, coucou !', 'Bonjour, toi !', 'Youpi ! Tu es là !', "Coucou ! Tu m'as manqué !"],
+  wake: ['Bonjour !', 'Oh ! Coucou !', 'Ça y est, je me réveille !'],
+  morning: ['Bonjour, petit soleil !'],
+
+  pet: ['Ça fait du bien.', "J'adore les câlins !", "C'est tout doux.", "Encore, s'il te plaît !"],
+  tickle: ['Ça chatouille !', 'Guili, guili !', 'Oh, les chatouilles !', 'Arrête ! Ça chatouille !'],
+  nose: ['Bip !', "C'est mon nez !", 'Bip, bip !', 'Tu as touché mon nez !'],
+  ears: ['Ce sont mes oreilles !', 'Ça bouge, ça bouge !', 'Mes oreilles sont très longues !'],
+  feet: ['Ce sont mes petits pieds !', 'Ça chatouille les pieds !', 'Mes pieds !'],
+  hands: ['Tope là !', "C'est ma main !", 'Youpi ! Tope là !'],
+  tail: ["C'est ma queue !", 'Ma queue toute douce !'],
+  cheeks: ['Mes joues !', 'Des joues toutes douces !'],
+  head: ["C'est ma tête !", 'Des caresses sur la tête !'],
+
+  name_nose: ["C'est mon nez !"],
+  name_ears: ['Ce sont mes oreilles !'],
+  name_tummy: ["C'est mon ventre !"],
+  name_feet: ['Ce sont mes pieds !'],
+  name_tail: ["C'est ma queue !"],
+  name_hands: ["C'est ma main !"],
+  name_head: ["C'est ma tête !"],
+  name_cheeks: ['Ce sont mes joues !'],
+
+  love: ["Je t'aime !", "Je t'aime très, très fort !", 'Un gros câlin !', 'Tu es mon rayon de soleil !'],
+  yay: ['Youpi !', 'Hourra !', "C'est trop bien !", 'Encore ! Encore !', 'Bravo !'],
+  wow: ['Waouh !', "Oh, c'est joli !", 'Regarde ça !'],
+  kind: ["C'est gentil, merci.", "J'aime jouer avec toi.", "Avec toi, c'est la joie !"],
+  excuse: ['Pardon !', 'Oups, pardon !'],
+  dizzy: ["Oh là là ! J'ai la tête qui tourne !"],
+  spin: ['Ça tourne, ça tourne !', 'Je tourne comme une toupie !'],
+  jump: ['On saute !', 'Hop, hop, hop !'],
+
+  hungry: ["J'ai faim !", 'Mon ventre gargouille.'],
+  snack_please: ["Je peux avoir un goûter, s'il te plaît ?"],
+  yum: ['Miam !', "C'est délicieux !", 'Miam, miam, miam !', "Merci ! C'était très bon !"],
+  apple: ['Une pomme !'],
+  strawberry: ['Une fraise !'],
+  carrot: ['Une carotte !'],
+  cookie: ['Un biscuit !'],
+
+  sleepy: ["J'ai très sommeil.", "C'est l'heure de la sieste."],
+  night: ['Bonne nuit ! Fais de beaux rêves.', 'Dodo, dodo.', "La lune est là. C'est l'heure de dormir."],
+
+  dance: ['On danse !', 'Danse avec moi !'],
+  sing: ['On chante !', 'Chante avec moi !'],
+  bored: ['Tu es là ?', 'Coucou ? Viens jouer !', "Je t'attends."],
+
+  find_nose: ['Où est mon nez ?'],
+  find_ears: ['Où sont mes oreilles ?'],
+  find_tummy: ['Tu me chatouilles le ventre ?'],
+  find_feet: ['Tu peux toucher mes pieds ?'],
+  find_tail: ['Où est ma queue ?'],
+  find_hands: ['On se tape dans la main ?'],
+  find_head: ['Tu me caresses la tête ?'],
+  found: ['Tu as trouvé !', 'Bravo !', "C'est ça !", 'Tu as réussi !', 'Super !'],
+  retry: ['Oups ! Essaie encore !', 'Presque. Essaie encore !'],
+
+  peek: ['Caché,'],
+  boo: ['Coucou !'],
+
+  count_intro: ['On compte !', 'Compte avec moi !'],
+  n1: ['Un !'], n2: ['Deux !'], n3: ['Trois !'], n4: ['Quatre !'], n5: ['Cinq !'],
+  n6: ['Six !'], n7: ['Sept !'], n8: ['Huit !'], n9: ['Neuf !'], n10: ['Dix !'],
+  count_done: ['On a tout compté !', 'Tu comptes très bien !'],
+
+  bubbles: ['Des bulles !', 'Éclate les bulles !', 'Pop, pop, pop !'],
+  red: ['Rouge !'], blue: ['Bleu !'], yellow: ['Jaune !'], green: ['Vert !'],
+  pink: ['Rose !'], purple: ['Violet !'], orange: ['Orange !'],
+
+  butterfly: ['Un papillon !', 'Bonjour, papillon !'],
+  flower: ['Une fleur !', "Comme c'est joli !"],
+  star: ['Une étoile filante !', 'Brille, brille, petite étoile !', 'Fais un vœu !'],
+
+  cow_q: ['Que fait la vache ?'], cow_a: ['Meuh !'],
+  duck_q: ['Que fait le canard ?'], duck_a: ['Coin, coin !'],
+  cat_q: ['Que fait le chat ?'], cat_a: ['Miaou !'],
+  dog_q: ['Que fait le chien ?'], dog_a: ['Ouaf, ouaf !'],
+  sheep_q: ['Que fait le mouton ?'], sheep_a: ['Bêê !'],
+};

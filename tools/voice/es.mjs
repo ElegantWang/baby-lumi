@@ -1,0 +1,82 @@
+// Español (neutro, voz latinoamericana). Frases sin género para quien escucha.
+export default {
+  intro: ['¡Hola! ¡Soy Lumi!'],
+  hello: ['¡Hola, hola!', '¡Hola! ¿Cómo estás?', '¡Sí! ¡Ya llegaste!', '¡Hola! ¡Te extrañé!'],
+  wake: ['¡Buenos días!', '¡Oh! ¡Hola!', '¡Ya desperté!'],
+  morning: ['¡Buenos días, solecito!'],
+
+  pet: ['Qué rico se siente.', '¡Me encantan los mimos!', 'Qué calentito.', '¡Más, por favor!'],
+  tickle: ['¡Me haces cosquillas!', '¡Cosquillas, cosquillas!', '¡Me atrapaste!', '¡Ay, para! ¡Qué cosquillas!'],
+  nose: ['¡Bip!', '¡Esa es mi nariz!', '¡Bip, bip!', '¡Me tocaste la nariz!'],
+  ears: ['¡Esas son mis orejas!', '¡Se mueven, se mueven!', '¡Mis orejas son muy largas!'],
+  feet: ['¡Esos son mis piecitos!', '¡Cosquillas en los pies!', '¡Mis pies!'],
+  hands: ['¡Choca esos cinco!', '¡Esa es mi mano!', '¡Sí! ¡Choca esos cinco!'],
+  tail: ['¡Esa es mi cola!', '¡Mi colita esponjosa!'],
+  cheeks: ['¡Mis cachetes!', '¡Cachetes blanditos!'],
+  head: ['¡Esa es mi cabeza!', '¡Cariñitos en la cabeza!'],
+
+  name_nose: ['¡Esa es mi nariz!'],
+  name_ears: ['¡Esas son mis orejas!'],
+  name_tummy: ['¡Esa es mi pancita!'],
+  name_feet: ['¡Esos son mis pies!'],
+  name_tail: ['¡Esa es mi cola!'],
+  name_hands: ['¡Esa es mi mano!'],
+  name_head: ['¡Esa es mi cabeza!'],
+  name_cheeks: ['¡Esos son mis cachetes!'],
+
+  love: ['¡Te quiero!', '¡Te quiero muchísimo!', '¡Un abrazo grande!', '¡Eres mi persona favorita!'],
+  yay: ['¡Yupi!', '¡Hurra!', '¡Qué divertido!', '¡Otra vez! ¡Otra vez!', '¡Bravo!'],
+  wow: ['¡Guau!', '¡Oh, qué bonito!', '¡Mira eso!'],
+  kind: ['Eres muy amable.', 'Me gusta jugar contigo.', 'Me haces muy feliz.'],
+  excuse: ['¡Perdón!', '¡Uy, perdón!'],
+  dizzy: ['¡Uy! ¡Todo me da vueltas!'],
+  spin: ['¡Vueltas y vueltas!', '¡Estoy girando!'],
+  jump: ['¡A saltar!', '¡Arriba, arriba!'],
+
+  hungry: ['¡Tengo hambre!', 'Me suena la pancita.'],
+  snack_please: ['¿Me das algo de comer, por favor?'],
+  yum: ['¡Qué rico!', '¡Delicioso!', '¡Ñam, ñam, ñam!', '¡Gracias! ¡Estaba muy rico!'],
+  apple: ['¡Una manzana!'],
+  strawberry: ['¡Una fresa!'],
+  carrot: ['¡Una zanahoria!'],
+  cookie: ['¡Una galleta!'],
+
+  sleepy: ['Tengo mucho sueño.', 'Es hora de una siesta.'],
+  night: ['¡Buenas noches! Dulces sueños.', 'Hasta mañana.', 'Ya salió la luna. Es hora de dormir.'],
+
+  dance: ['¡Vamos a bailar!', '¡Baila conmigo!'],
+  sing: ['¡Vamos a cantar!', '¡Canta conmigo!'],
+  bored: ['¿Estás ahí?', '¿Hola? ¡Ven a jugar!', 'Te estoy esperando.'],
+
+  find_nose: ['¿Dónde está mi nariz?'],
+  find_ears: ['¿Dónde están mis orejas?'],
+  find_tummy: ['¿Me haces cosquillas en la pancita?'],
+  find_feet: ['¿Puedes tocar mis pies?'],
+  find_tail: ['¿Dónde está mi cola?'],
+  find_hands: ['¿Chocamos los cinco?'],
+  find_head: ['¿Me acaricias la cabeza?'],
+  found: ['¡Lo lograste!', '¡Muy bien!', '¡Eso es!', '¡Así se hace!', '¡Excelente!'],
+  retry: ['¡Uy! ¡Inténtalo otra vez!', 'Casi. ¡Otra vez!'],
+
+  peek: ['¿Dónde estoy?'],
+  boo: ['¡Aquí estoy!'],
+
+  count_intro: ['¡Vamos a contar!', '¡Cuenta conmigo!'],
+  n1: ['¡Uno!'], n2: ['¡Dos!'], n3: ['¡Tres!'], n4: ['¡Cuatro!'], n5: ['¡Cinco!'],
+  n6: ['¡Seis!'], n7: ['¡Siete!'], n8: ['¡Ocho!'], n9: ['¡Nueve!'], n10: ['¡Diez!'],
+  count_done: ['¡Los contamos todos!', '¡Qué bien cuentas!'],
+
+  bubbles: ['¡Burbujas!', '¡Revienta las burbujas!', '¡Pop, pop, pop!'],
+  red: ['¡Rojo!'], blue: ['¡Azul!'], yellow: ['¡Amarillo!'], green: ['¡Verde!'],
+  pink: ['¡Rosa!'], purple: ['¡Morado!'], orange: ['¡Naranja!'],
+
+  butterfly: ['¡Una mariposa!', '¡Hola, mariposa!'],
+  flower: ['¡Una flor!', '¡Qué bonita!'],
+  star: ['¡Una estrella fugaz!', '¡Brilla, brilla, estrellita!', '¡Pide un deseo!'],
+
+  cow_q: ['¿Cómo hace la vaca?'], cow_a: ['¡Muu!'],
+  duck_q: ['¿Cómo hace el pato?'], duck_a: ['¡Cuac, cuac!'],
+  cat_q: ['¿Cómo hace el gatito?'], cat_a: ['¡Miau!'],
+  dog_q: ['¿Cómo hace el perrito?'], dog_a: ['¡Guau, guau!'],
+  sheep_q: ['¿Cómo hace la oveja?'], sheep_a: ['¡Bee!'],
+};

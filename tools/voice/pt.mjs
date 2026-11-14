@@ -1,0 +1,82 @@
+// Português (Brasil). Frases sem gênero para quem escuta.
+export default {
+  intro: ['Oi! Eu sou a Lumi!'],
+  hello: ['Oi, oi!', 'Oi! Tudo bem?', 'Oba! Você chegou!', 'Oi! Que saudade de você!'],
+  wake: ['Bom dia!', 'Oh! Oi!', 'Acordei!'],
+  morning: ['Bom dia, raio de sol!'],
+
+  pet: ['Que gostoso.', 'Eu adoro carinho!', 'Que quentinho.', 'Mais, por favor!'],
+  tickle: ['Faz cócegas!', 'Cócegas, cócegas!', 'Você me pegou!', 'Para! Faz cócegas!'],
+  nose: ['Bip!', 'Esse é o meu nariz!', 'Bip, bip!', 'Você apertou o meu nariz!'],
+  ears: ['Essas são as minhas orelhas!', 'Balança, balança!', 'Minhas orelhas são bem compridas!'],
+  feet: ['Esses são os meus pezinhos!', 'Cócegas no pé!', 'Meus pés!'],
+  hands: ['Toca aqui!', 'Essa é a minha mão!', 'Oba! Toca aqui!'],
+  tail: ['Esse é o meu rabinho!', 'Meu rabinho fofinho!'],
+  cheeks: ['Minhas bochechas!', 'Bochechas fofinhas!'],
+  head: ['Essa é a minha cabeça!', 'Carinho na cabeça!'],
+
+  name_nose: ['Esse é o meu nariz!'],
+  name_ears: ['Essas são as minhas orelhas!'],
+  name_tummy: ['Essa é a minha barriga!'],
+  name_feet: ['Esses são os meus pés!'],
+  name_tail: ['Esse é o meu rabinho!'],
+  name_hands: ['Essa é a minha mão!'],
+  name_head: ['Essa é a minha cabeça!'],
+  name_cheeks: ['Essas são as minhas bochechas!'],
+
+  love: ['Eu te amo!', 'Eu te amo muito, muito!', 'Um abraço bem grande!', 'Você é a minha pessoa favorita!'],
+  yay: ['Oba!', 'Viva!', 'Que divertido!', 'De novo! De novo!', 'Eba!'],
+  wow: ['Uau!', 'Oh, que lindo!', 'Olha só!'],
+  kind: ['Você é muito gentil.', 'Eu gosto de brincar com você.', 'Você me deixa feliz.'],
+  excuse: ['Desculpa!', 'Opa! Saúde!'],
+  dizzy: ['Opa! Está tudo girando!'],
+  spin: ['Gira, gira!', 'Estou girando!'],
+  jump: ['Pula!', 'Pra cima, pra cima!'],
+
+  hungry: ['Estou com fome!', 'Minha barriga está roncando.'],
+  snack_please: ['Posso comer um lanchinho, por favor?'],
+  yum: ['Que gostoso!', 'Uma delícia!', 'Nham, nham, nham!', 'Obrigada! Estava uma delícia!'],
+  apple: ['Uma maçã!'],
+  strawberry: ['Um morango!'],
+  carrot: ['Uma cenoura!'],
+  cookie: ['Um biscoito!'],
+
+  sleepy: ['Estou com muito sono.', 'Hora da soneca.'],
+  night: ['Boa noite! Bons sonhos.', 'Dorme bem.', 'A lua apareceu. Hora de dormir.'],
+
+  dance: ['Vamos dançar!', 'Dança comigo!'],
+  sing: ['Vamos cantar!', 'Canta comigo!'],
+  bored: ['Você está aí?', 'Oi? Vem brincar!', 'Estou te esperando.'],
+
+  find_nose: ['Cadê o meu nariz?'],
+  find_ears: ['Cadê as minhas orelhas?'],
+  find_tummy: ['Você faz cócegas na minha barriga?'],
+  find_feet: ['Você consegue tocar nos meus pés?'],
+  find_tail: ['Cadê o meu rabinho?'],
+  find_hands: ['Toca aqui comigo?'],
+  find_head: ['Você faz carinho na minha cabeça?'],
+  found: ['Achou!', 'Muito bem!', 'Isso mesmo!', 'Você conseguiu!', 'Parabéns!'],
+  retry: ['Ops! Tenta de novo!', 'Quase. Tenta de novo!'],
+
+  peek: ['Cadê a Lumi?'],
+  boo: ['Achou!'],
+
+  count_intro: ['Vamos contar!', 'Conta comigo!'],
+  n1: ['Um!'], n2: ['Dois!'], n3: ['Três!'], n4: ['Quatro!'], n5: ['Cinco!'],
+  n6: ['Seis!'], n7: ['Sete!'], n8: ['Oito!'], n9: ['Nove!'], n10: ['Dez!'],
+  count_done: ['Contamos todos!', 'Você conta muito bem!'],
+
+  bubbles: ['Bolhas!', 'Estoura as bolhas!', 'Poc, poc, poc!'],
+  red: ['Vermelho!'], blue: ['Azul!'], yellow: ['Amarelo!'], green: ['Verde!'],
+  pink: ['Rosa!'], purple: ['Roxo!'], orange: ['Laranja!'],
+
+  butterfly: ['Uma borboleta!', 'Oi, borboleta!'],
+  flower: ['Uma flor!', 'Que linda!'],
+  star: ['Uma estrela cadente!', 'Brilha, brilha, estrelinha!', 'Faz um pedido!'],
+
+  cow_q: ['Como faz a vaca?'], cow_a: ['Muu!'],
+  duck_q: ['Como faz o pato?'], duck_a: ['Quá, quá!'],
+  cat_q: ['Como faz o gatinho?'], cat_a: ['Miau!'],
+  dog_q: ['Como faz o cachorrinho?'], dog_a: ['Au, au!'],
+  sheep_q: ['Como faz a ovelha?'], sheep_a: ['Mééé!'],
+};

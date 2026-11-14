@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Lumi sculpt check</title>
+    <style>html,body{margin:0;height:100%;background:#8fa3b0;overflow:hidden}canvas{display:block;width:100%;height:100%}</style>
+    <script type="importmap">{ "imports": { "three": "../vendor/three/three.module.js" } }</script>
+  </head>
+  <body>
+    <canvas id="c"></canvas>
+    <script type="module">
+      // Dev-only: shows the baked mesh from four angles with flat studio lighting,
+      // coloured by its masks, to judge the sculpt. ?mode=color|ao|weights|fur|thin|face|morph
+      import * as THREE from 'three';
+      import { loadCharacter } from '../src/character/loader.js';
+      const params = new URLSearchParams(location.search);
+      const mode = params.get('mode') || 'color';
+      const canvas = document.getElementById('c');
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(innerWidth, innerHeight, false);
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x8fa3b0);
+      scene.add(new THREE.HemisphereLight(0xffffff, 0x556070, 1.6));
+      const key = new THREE.DirectionalLight(0xfff2e0, 2.2);
+      key.position.set(-1.5, 2.5, 3);
+      scene.add(key);
+      const { geometry, header } = await loadCharacter('../assets/lumi.bin');
+      const n = geometry.attributes.position.count;
+      const col = new Float32Array(n * 3);
+      const mask = geometry.attributes.aMask, fur = geometry.attributes.aFur, morph = geometry.attributes.aMorph;
+      const si = geometry.attributes.skinIndex, sw = geometry.attributes.skinWeight;
+      const palette = header.bones.map((b, i) => new THREE.Color().setHSL((i * 0.381) % 1, 0.75, 0.55));
+      const c = new THREE.Color(), t = new THREE.Color();
+      for (let v = 0; v < n; v++) {
+        if (mode === 'color') {
+          c.setRGB(1.0, 0.86, 0.72);
+          c.lerp(t.setRGB(1, 0.98, 0.95), mask.getX(v));
+          c.lerp(t.setRGB(0.62, 0.5, 0.95), mask.getY(v));
+          c.lerp(t.setRGB(1.0, 0.6, 0.66), mask.getZ(v));
+          c.lerp(t.setRGB(0.25, 0.12, 0.14), mask.getW(v));
+          c.multiplyScalar(0.35 + 0.65 * fur.getY(v));
+        } else if (mode === 'ao') c.setScalar(fur.getY(v));
+        else if (mode === 'fur') c.setScalar(fur.getX(v));
+        else if (mode === 'thin') c.setScalar(fur.getZ(v));
+        else if (mode === 'face') c.setScalar(fur.getW(v));
+        else if (mode === 'morph') c.setRGB(morph.getX(v), morph.getY(v), morph.getZ(v));
+        else if (mode === 'weights') {
+          c.setRGB(0, 0, 0);
+          for (let j = 0; j < 4; j++) {
+            const w = sw.getComponent(v, j);
+            if (w > 0) { t.copy(palette[si.getComponent(v, j)]).multiplyScalar(w); c.add(t); }
+          }
+        }
+        col[v * 3] = c.r; col[v * 3 + 1] = c.g; col[v * 3 + 2] = c.b;
+      }
+      geometry.setAttribute('color', new THREE.BufferAttribute(col, 3));
+      const flat = mode !== 'color';
+      const mat = flat ? new THREE.MeshBasicMaterial({ vertexColors: true }) : new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.85 });
+      scene.add(new THREE.Mesh(geometry, mat));
+      // stand-in eyeballs
+      for (const e of header.eyes) {
+        const m = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 24), new THREE.MeshStandardMaterial({ color: 0x1a1024, roughness: 0.08 }));
+        m.scale.set(...e.radii);
+        m.matrixAutoUpdate = false;
+        const basis = new THREE.Matrix4().makeBasis(new THREE.Vector3(...e.right), new THREE.Vector3(...e.up), new THREE.Vector3(...e.normal));
+        m.matrix.copy(basis).setPosition(...e.center).scale(new THREE.Vector3(...e.radii));
+        scene.add(m);
+      }
+      if (params.get('bones')) {
+        for (const b of header.bones) {
+          const s = new THREE.Mesh(new THREE.SphereGeometry(0.012), new THREE.MeshBasicMaterial({ color: 0xff0044, depthTest: false }));
+          s.position.set(...b.pos); s.renderOrder = 9; scene.add(s);
+        }
+      }
+      const grid = new THREE.GridHelper(2, 20, 0x445566, 0x667788);
+      scene.add(grid);
+      const views = (params.get('views') || 'front,34,side,back').split(',');
+      const dirs = { front: [0, 0.15, 1], 34: [0.75, 0.3, 1], side: [1, 0.1, 0], back: [0.3, 0.2, -1], top: [0, 1, 0.01], low: [0.3, -0.25, 1], face: [0, 0.05, 1] };
+      const cols = Math.ceil(Math.sqrt(views.length)), rows = Math.ceil(views.length / cols);
+      const cam = new THREE.PerspectiveCamera(24, 1, 0.1, 50);
+      renderer.setScissorTest(true);
+      const W = canvas.width, H = canvas.height;
+      views.forEach((name, i) => {
+        const cx = i % cols, cy = Math.floor(i / cols);
+        const w = W / cols, h = H / rows;
+        const pr = renderer.getPixelRatio();
+        renderer.setViewport((cx * w) / pr, ((rows - 1 - cy) * h) / pr, w / pr, h / pr);
+        renderer.setScissor((cx * w) / pr, ((rows - 1 - cy) * h) / pr, w / pr, h / pr);
+        const d = new THREE.Vector3(...dirs[name]).normalize();
+        const target = new THREE.Vector3(0, name === 'face' ? 0.75 : 0.7, 0);
+        const dist = name === 'face' ? 2.2 : 4.1;
+        cam.aspect = w / h; cam.updateProjectionMatrix();
+        cam.position.copy(target).addScaledVector(d, dist);
+        cam.lookAt(target);
+        renderer.render(scene, cam);
+      });
+      window.__lumiReady = true;
+    </script>
+  </body>
+</html>

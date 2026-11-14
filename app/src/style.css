@@ -1,0 +1,57 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: #bfe3f2;
+  /* a toddler's fingers should never select, zoom, scroll or summon a menu */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+}
+
+/* soft loading veil: fades away once the first frame is ready */
+#veil {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 50% 42%, #fff7e8 0%, #ffe3c4 38%, #bfe3f2 100%);
+  transition: opacity 0.9s ease;
+  z-index: 10;
+}
+#veil.gone {
+  opacity: 0;
+  pointer-events: none;
+}
+#veil .pulse {
+  width: 18vmin;
+  height: 18vmin;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #ffffff 0%, #fff1cf 45%, #ffd9a0 100%);
+  box-shadow: 0 0 9vmin 3vmin rgba(255, 244, 214, 0.9);
+  animation: breathe 1.6s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.82);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
