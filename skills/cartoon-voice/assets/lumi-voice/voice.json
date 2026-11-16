@@ -1,0 +1,38 @@
+{
+  "name": "Lumi",
+  "model": "fish-audio/drama-3",
+  "description": "The voice of a small fluffy baby animal in an animated preschool series: high, soft and round, giggly and gentle, each word clear and unhurried.",
+  "audience": "an app for toddlers",
+  "references": {
+    "default": {
+      "file": "lumi.wav",
+      "text": "Hi! I'm Lumi! I love playing with you. Can you find my nose? Yay, you found it! Now I'm a little bit sleepy. Good night, sweet dreams."
+    },
+    "es": {
+      "file": "lumi.es.wav",
+      "text": "¡Hola! ¡Soy Lumi! Me encanta jugar contigo. ¿Dónde está mi nariz? ¡Bravo, la encontraste! Ahora tengo un poquito de sueño. Buenas noches, dulces sueños."
+    },
+    "fr": {
+      "file": "lumi.fr.wav",
+      "text": "Coucou ! Je m'appelle Loumi ! J'adore jouer avec toi. Où est mon nez ? Bravo, tu l'as trouvé ! Maintenant, j'ai un petit peu sommeil. Bonne nuit, fais de beaux rêves."
+    },
+    "de": {
+      "file": "lumi.de.wav",
+      "text": "Hallo! Ich bin Lumi! Ich spiele so gern mit dir. Wo ist meine Nase? Juhu, du hast sie gefunden! Jetzt bin ich ein bisschen müde. Gute Nacht, träum schön."
+    }
+  },
+  "moods": {
+    "happy": "cheerful and bubbly",
+    "excited": "excited, cheering",
+    "giggly": "giggling, ticklish",
+    "gentle": "sweet and loving",
+    "sleepy": "sleepy and soft",
+    "asking": "curious and playful",
+    "playful": "playful and silly",
+    "amazed": "amazed, full of wonder"
+  },
+  "defaultMood": "happy",
+  "softer": "sweet, friendly and calm",
+  "spread": 5.5,
+  "soundSpread": 8.5
+}

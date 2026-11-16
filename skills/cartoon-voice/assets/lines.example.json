@@ -1,0 +1,40 @@
+{
+  "_moods": {
+    "excited": ["yay", "count"],
+    "gentle": ["love"],
+    "asking": ["find"],
+    "sleepy": ["night"]
+  },
+  "en": {
+    "hello_1": "Hi! I'm Lumi!",
+    "hello_2": "Hello, hello!",
+    "find_nose": "Can you find my nose?",
+    "yay_1": "Yay! You did it!",
+    "count_3": "Three!",
+    "love_1": "I love you.",
+    "night_1": "Good night, sweet dreams.",
+    "story_1": { "text": "Once upon a time, a little star fell asleep on a cloud.", "mood": "gentle" },
+    "boo_1": { "text": "Peekaboo!", "direction": "playful, popping out from hiding" }
+  },
+  "fr": {
+    "hello_1": "Coucou ! Je m'appelle Loumi !",
+    "hello_2": "Bonjour, bonjour !",
+    "find_nose": "Où est mon nez ?",
+    "yay_1": "Bravo ! Tu as réussi !",
+    "count_3": "Trois !",
+    "love_1": "Je t'aime.",
+    "night_1": "Bonne nuit, fais de beaux rêves."
+  },
+  "sounds": {
+    "giggle_1": { "text": "Hee hee hee!", "direction": "giggling, ticklish", "sound": true, "longest": 1.7 },
+    "giggle_2": { "text": "Hee hee!", "direction": "giggling, ticklish", "sound": true, "longest": 1.7 },
+    "whee_1": { "text": "Wheee!", "direction": "thrilled, sliding down a slide", "sound": true, "longest": 1.2 },
+    "yay_1": { "text": "Yay!", "direction": "excited, cheering", "sound": true, "longest": 1.0 },
+    "oh_1": { "text": "Ooh!", "direction": "surprised", "sound": true, "longest": 0.9 },
+    "hup_1": { "text": "Hup!", "direction": "jumping, playful", "sound": true, "longest": 0.6 },
+    "coo_1": { "text": "Mmmm.", "direction": "content and cosy, being stroked", "sound": true, "longest": 1.1 },
+    "babble_1": { "text": "Ba-da, la-la, doo!", "direction": "babbling happily to herself", "sound": true, "longest": 2.4 },
+    "yawn_1": { "text": "Aaaah, hmm.", "direction": "a big sleepy yawn", "sound": true, "longest": 2.6 },
+    "kiss_1": { "text": "Mwah!", "direction": "blowing a kiss, loving", "sound": true, "longest": 0.9 }
+  }
+}
