@@ -1,6 +1,10 @@
-// Lumi's wordless voice: giggles, yawns, coos, "wheee!" and singing, made with
-// a tiny formant synthesizer (a buzzy source shaped by vowel resonances). Every
-// call is a little different, so she never sounds like a recording.
+// Lumi's wordless voice: giggles, yawns, coos, "wheee!" and singing.
+//
+// The sounds she makes most are recordings in the same voice as her words (see
+// tools/voice/sounds.mjs), each with a few variants and played at a slightly
+// different pitch every time. Everything else, and any of those until its
+// recording has loaded, is made with a tiny formant synthesizer (a buzzy source
+// shaped by vowel resonances), where every call is a little different too.
 
 // vowel formants (Hz) tuned for a small, bright voice
 const VOWELS = {
@@ -20,6 +24,17 @@ export class Vocal {
   constructor(engine) {
     this.engine = engine;
     this.pitch = 1; // global pitch multiplier (mood can nudge it)
+    /** Her recorded sounds, once main.js has handed them over. @type {import('./voiceLines.js').VoiceLines|null} */
+    this.recordings = null;
+  }
+
+  /**
+   * Play a recorded sound, if there is one.
+   * @returns {number} end time offset (seconds from now), or 0 when the synthesizer should make it instead
+   */
+  #recorded(name, when) {
+    const r = this.recordings?.say(name, { when, gain: 0.9, rate: this.pitch * rnd(0.97, 1.04) });
+    return r ? when + r.duration : 0;
   }
 
   /**
@@ -150,6 +165,8 @@ export class Vocal {
   // ---- the repertoire --------------------------------------------------------
 
   giggle(when = 0) {
+    const recorded = this.#recorded('giggle', when);
+    if (recorded) return recorded;
     const n = 5 + Math.floor(Math.random() * 3);
     let t = when;
     let f = rnd(700, 780);
@@ -174,19 +191,27 @@ export class Vocal {
   }
 
   whee(when = 0) {
+    const recorded = this.#recorded('whee', when);
+    if (recorded) return recorded;
     return this.syl({ v: 'i', f0: 520, f1: 940, dur: 0.6, when, vibrato: 0.012, gain: 0.9, onset: 'h' });
   }
 
   yay(when = 0) {
+    const recorded = this.#recorded('yay', when);
+    if (recorded) return recorded;
     this.syl({ v: 'i', v2: 'e', f0: 560, f1: 700, dur: 0.14, when, gain: 0.9 });
     return this.syl({ v: 'e', v2: 'i', f0: 760, f1: 620, dur: 0.42, when: when + 0.14, gain: 1, vibrato: 0.012 });
   }
 
   hup(when = 0) {
+    const recorded = this.#recorded('hup', when);
+    if (recorded) return recorded;
     return this.syl({ v: 'a', f0: 520, f1: 760, dur: 0.16, when, onset: 'h', gain: 0.8 });
   }
 
   oh(when = 0) {
+    const recorded = this.#recorded('oh', when);
+    if (recorded) return recorded;
     return this.syl({ v: 'o', f0: 480, f1: 700, dur: 0.26, when, gain: 0.85 });
   }
 
@@ -205,12 +230,16 @@ export class Vocal {
 
   /** A soft happy purr-coo while being petted. */
   coo(when = 0) {
+    const recorded = this.#recorded('coo', when);
+    if (recorded) return recorded;
     const f = rnd(430, 520);
     this.syl({ v: 'u', v2: 'o', f0: f, f1: f * 1.18, dur: 0.34, when, gain: 0.6, onset: 'm', vibrato: 0.03 });
     return this.syl({ v: 'o', v2: 'u', f0: f * 1.18, f1: f * 0.95, dur: 0.4, when: when + 0.34, gain: 0.55, vibrato: 0.03 });
   }
 
   yawn(when = 0) {
+    const recorded = this.#recorded('yawn', when);
+    if (recorded) return recorded;
     this.noise({ when, dur: 0.5, freq: 900, q: 0.7, gain: 0.07, attack: 0.3 }); // breath in
     this.syl({ v: 'a', f0: 400, f1: 560, dur: 0.75, when: when + 0.4, gain: 0.7, breath: 0.2, attack: 0.25 });
     return this.syl({ v: 'a', v2: 'o', f0: 560, f1: 310, dur: 1.05, when: when + 1.15, gain: 0.7, breath: 0.25, vibrato: 0.01 });
@@ -228,6 +257,8 @@ export class Vocal {
   }
 
   kiss(when = 0) {
+    const recorded = this.#recorded('kiss', when);
+    if (recorded) return recorded;
     this.syl({ v: 'm', f0: 540, f1: 600, dur: 0.2, when, onset: 'm', gain: 0.7, breath: 0.01 });
     this.noise({ when: when + 0.2, dur: 0.05, freq: 2600, q: 3, gain: 0.5 });
     return this.syl({ v: 'a', f0: 640, f1: 560, dur: 0.22, when: when + 0.24, gain: 0.8 });
@@ -322,6 +353,8 @@ export class Vocal {
 
   /** Short chatter in Lumi's own babble language (used for emphasis and replies). */
   babble(count = 4, when = 0, mood = 0) {
+    const recorded = this.#recorded('babble', when);
+    if (recorded) return recorded;
     const vowels = ['a', 'i', 'o', 'e', 'u'];
     let t = when;
     let f = rnd(560, 660) * (1 + mood * 0.12);

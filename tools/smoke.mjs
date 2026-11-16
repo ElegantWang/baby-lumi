@@ -82,6 +82,8 @@ try {
   await sleep(6500);
   const lines = await ev(() => ({ loaded: window.__lumi.voice.raw.size, total: Object.keys(window.__lumi.voice.manifest.lines).length, decoded: window.__lumi.voice.buffers.size }));
   check('all voice lines are downloaded', lines.loaded === lines.total && lines.total >= 140, `${lines.loaded}/${lines.total}`);
+  const wordless = await ev(() => ({ loaded: window.__lumi.vocal.recordings.raw.size, total: Object.keys(window.__lumi.vocal.recordings.manifest.lines).length }));
+  check('and so are her giggles and other wordless sounds', wordless.loaded === wordless.total && wordless.total >= 20, `${wordless.loaded}/${wordless.total}`);
   check('she spoke her greeting', lines.decoded >= 1, `${lines.decoded} decoded`);
   check('microphone is listening', (await ev(() => window.__lumi.mimic.state)) === 'listening');
   // going off screen must release the microphone, and coming back must pick it up again

@@ -45,7 +45,7 @@ export default {
   night: ['Bonne nuit ! Fais de beaux rêves.', 'Dodo, dodo.', "La lune est là. C'est l'heure de dormir."],
 
   dance: ['On danse !', 'Danse avec moi !'],
-  sing: ['On chante !', 'Chante avec moi !'],
+  sing: ['On chante !', 'Tu chantes avec moi ?'],
   bored: ['Tu es là ?', 'Coucou ? Viens jouer !', "Je t'attends."],
 
   find_nose: ['Où est mon nez ?'],

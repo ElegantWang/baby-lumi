@@ -72,6 +72,11 @@ const sfx = new Sfx(audio);
 const ambience = new Ambience(audio);
 ambience.enabled = store.settings.ambience;
 const voice = new VoiceLines(audio);
+// her giggles and other wordless sounds, in the same voice; speaking hushes them
+const sounds = new VoiceLines(audio);
+sounds.setLanguage('sounds');
+vocal.recordings = sounds;
+voice.quiets.push(sounds);
 // Lumi speaks the device's language when she can, unless a grown-up picked one (or ?lang= says otherwise)
 const chosenLanguage = () => voice.resolve(params.get('lang') || store.settings.lang);
 function applyLanguage() {

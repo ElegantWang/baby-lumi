@@ -1,7 +1,5 @@
-// The languages Lumi speaks. Each entry names the macOS voice that reads the
-// lines and how much to raise its pitch: voices differ in how high they
-// naturally speak, so the shift is chosen per voice to land every language in
-// the same small, bright register (roughly 220-290 Hz).
+// The languages Lumi speaks. She has one voice for all of them (see
+// persona.mjs), so a language is just its name and its words.
 //
 // To add a language: copy en.mjs to <code>.mjs, translate the lines (keep every
 // group), add an entry here, add the grown-ups' panel text in
@@ -14,16 +12,21 @@ import de from './de.mjs';
 import ja from './ja.mjs';
 import ko from './ko.mjs';
 import pt from './pt.mjs';
+import sounds from './sounds.mjs';
 
 export const LANGUAGES = [
-  { code: 'en', name: 'English', voice: 'Samantha', pitch: 1.28, lines: en },
-  { code: 'zh', name: '中文', voice: 'Tingting', pitch: 1.2, lines: zh },
-  { code: 'es', name: 'Español', voice: 'Paulina', pitch: 1.34, lines: es },
-  { code: 'fr', name: 'Français', voice: 'Amélie', pitch: 1.2, lines: fr },
-  { code: 'de', name: 'Deutsch', voice: 'Anna', pitch: 1.34, lines: de },
-  { code: 'ja', name: '日本語', voice: 'Kyoko', pitch: 1.14, lines: ja },
-  { code: 'ko', name: '한국어', voice: 'Yuna', pitch: 1.13, lines: ko },
-  { code: 'pt', name: 'Português', voice: 'Luciana', pitch: 1.27, lines: pt },
+  { code: 'en', name: 'English', lines: en },
+  { code: 'zh', name: '中文', lines: zh },
+  { code: 'es', name: 'Español', lines: es },
+  { code: 'fr', name: 'Français', lines: fr },
+  { code: 'de', name: 'Deutsch', lines: de },
+  { code: 'ja', name: '日本語', lines: ja },
+  { code: 'ko', name: '한국어', lines: ko },
+  { code: 'pt', name: 'Português', lines: pt },
 ];
 
 export const DEFAULT_LANGUAGE = 'en';
+
+// Her wordless sounds (giggles, "wheee!"): not a language, but recorded and
+// stored like one, in app/assets/voice/sounds/.
+export const SOUNDS = { code: 'sounds', name: 'Sounds', lines: sounds };

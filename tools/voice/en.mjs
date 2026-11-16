@@ -1,7 +1,7 @@
-// English. "Loomy" is spelled phonetically so the speech engine says "LOO-mee".
+// English.
 export default {
   // greetings
-  intro: ["Hi! I'm Loomy!"],
+  intro: ["Hi! I'm Lumi!"],
   hello: ['Hello, hello!', 'Hi, friend!', "Yay! You're here!", 'Hello! I missed you!'],
   wake: ['Good morning!', 'Oh! Hello!', "I'm awake!"],
   morning: ['Good morning, sunshine!'],

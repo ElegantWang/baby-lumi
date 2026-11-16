@@ -9,6 +9,7 @@
     "start:https": "node server.mjs --https",
     "build:character": "node tools/build-character.mjs",
     "build:voice": "node tools/build-voice.mjs",
+    "design:voice": "node tools/design-voice.mjs",
     "shot": "node tools/shot.mjs",
     "smoke": "node tools/smoke.mjs",
     "perf": "node tools/perf.mjs",

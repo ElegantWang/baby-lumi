@@ -191,10 +191,16 @@ No art assets were drawn or downloaded: everything is generated.
   layered hills, a sky that follows the clock, fireflies at night, and an HDR
   pipeline with soft shadows, depth of field, bloom and tone mapping. Quality
   adapts to the device automatically.
-- **Voice**: spoken lines are rendered ahead of time, in eight languages, with
-  the macOS speech engine and pitched up (`npm run build:voice`).
-  Giggles, yawns, coos and singing come from a small formant synthesizer in the
-  browser, as do all sound effects, so there are no other audio files.
+- **Voice**: Lumi has one voice, a small cartoon creature's, in all eight
+  languages. Her lines are recorded ahead of time by a text-to-speech model that
+  imitates a short reference recording (`tools/voice/lumi.wav`, itself
+  generated from a written description, so it is nobody's real voice), and each
+  group of lines is directed with a mood: giggly, sleepy, curious and so on
+  (`npm run build:voice`). Her giggles, "wheee!", coos and yawns are recorded
+  the same way. Singing, snoring, sneezing and munching still come from a small
+  formant synthesizer in the browser, as do all sound effects. The app itself
+  only plays the recordings: nothing is generated, or sent anywhere, while a
+  child plays.
 - **Behaviour** lives in `app/src/brain/brain.js` as small generator scripts.
 
 ```
@@ -218,19 +224,53 @@ tests/              unit and behaviour tests
 
 ### Changing Lumi's voice or words
 
-Her lines live in `tools/voice/<language>.mjs` (one file per language, all with
-the same groups). After editing, re-render with `npm run build:voice` (macOS
-with `ffmpeg`), or just one language with `npm run build:voice -- --lang fr`.
-Options: `--voice NAME --pitch 1.28 --rate 90 --tempo 0.95 --only <group>`.
+Recording needs `ffmpeg` and an [OpenRouter](https://openrouter.ai) API key, in
+the `OPENROUTER_API_KEY` environment variable or in a `.env` file at the top of
+the project (`OPENROUTER_API_KEY=sk-or-...`; git ignores it). Recording all
+eight languages from scratch costs about a dollar.
+
+**Her words** live in `tools/voice/<language>.mjs` (one file per language, all
+with the same groups), and her wordless sounds in `tools/voice/sounds.mjs`.
+After editing, run `npm run build:voice`: it records whatever is new or has
+changed. `-- --lang fr` does one language (`sounds` for the wordless ones),
+`-- --lang en --only hello` records one group afresh, and `-- --force` records
+everything again.
+
+A speech model is an actor, not a tape recorder, so every take is checked: two
+transcribers listen and write down what they hear, and the pitch is compared
+with her own. A take with a fluffed word, or one that squeals or drifts out of
+character, is recorded again and the best is kept. Anything that still did not
+come out clean is listed as `LISTEN` at the end (animal noises often are:
+transcribers cannot spell "Moo!" in a tiny voice). To hear for yourself, run
+`npm start` and open <http://localhost:8137/dev/voice.html>: every line of
+every language, one click each.
+
+**How she delivers a line** is in `tools/voice/persona.mjs`: each group has a
+mood (`tickle` is giggly, `night` is sleepy), and each mood is a direction to
+the model in plain words.
+
+**Her voice** is the recording `tools/voice/lumi.wav`. To try others, run
+`npm run design:voice`: it invents six new voices from the description in
+`persona.mjs` (or your own: `-- --describe "A sleepy little bear cub with a
+soft, round voice."`) and saves each saying the same few sentences in
+`voice-candidates/`. Copy the one you like over `tools/voice/lumi.wav` and run
+`npm run build:voice`, which then records everything again in the new voice.
+
+A voice keeps the accent of its recording. Modelled on the English recording,
+her Chinese, Japanese, Korean and Portuguese sound native, but her Spanish,
+French and German had an American accent, so those three are modelled on
+recordings of their own (`lumi.es.wav`, `lumi.fr.wav`, `lumi.de.wav`: the same
+description, performed in that language; they are listed in `persona.mjs`). If
+you change her English voice, make new ones for them too
+(`npm run design:voice -- --say "¡Hola! ¡Soy Lumi! ..."`).
 
 **Adding a language:**
 
 1. Copy `tools/voice/en.mjs` to `tools/voice/<code>.mjs` and translate it. Keep
    every group; use what small children really say rather than literal
    translations.
-2. Add it to `tools/voice/index.mjs` with a macOS voice (`say -v '?'` lists the
-   installed ones) and a pitch factor. The build prints the pitch each language
-   ends up at; aim for roughly 220-290 Hz so she sounds like the same creature.
+2. Add it to `tools/voice/index.mjs`. She speaks it in the same voice as the
+   others.
 3. Add the grown-ups' panel text to `app/src/ui/strings.js`.
 4. Run `npm run build:voice -- --lang <code>` and `npm test` (the tests check
    that every language is complete).

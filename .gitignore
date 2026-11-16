@@ -17,6 +17,8 @@ keystore.properties
 # ---- dependencies and build output --------------------------------------------
 node_modules/
 dist/
+# voices to choose from (npm run design:voice)
+voice-candidates/
 
 # Cloudflare Wrangler's local state
 .wrangler/

@@ -35,7 +35,7 @@ export default {
 
   hungry: ['Ich habe Hunger!', 'Mein Bauch knurrt.'],
   snack_please: ['Kann ich bitte etwas zu essen haben?'],
-  yum: ['Lecker!', 'Mmh, köstlich!', 'Mjam, mjam, mjam!', 'Danke! Das war lecker!'],
+  yum: ['Lecker!', 'Mmh, schmeckt gut!', 'Mjam, mjam, mjam!', 'Danke! Das war lecker!'],
   apple: ['Ein Apfel!'],
   strawberry: ['Eine Erdbeere!'],
   carrot: ['Eine Karotte!'],

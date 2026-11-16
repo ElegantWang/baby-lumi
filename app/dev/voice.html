@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lumi voice check</title>
+    <style>
+      body { margin: 0; padding: 16px; font: 15px/1.4 system-ui, sans-serif; background: #fbf6ee; color: #3a3340; }
+      header { position: sticky; top: 0; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 8px 0 12px; background: #fbf6ee; }
+      h1 { font-size: 18px; margin: 0 12px 0 0; }
+      button, select { font: inherit; padding: 6px 12px; border: 1px solid #cbbfd6; border-radius: 999px; background: #fff; color: inherit; cursor: pointer; }
+      button.on { background: #7b5cd6; border-color: #7b5cd6; color: #fff; }
+      h2 { font-size: 13px; margin: 18px 0 6px; color: #8a7f95; text-transform: uppercase; letter-spacing: 0.06em; }
+      .lines { display: flex; flex-wrap: wrap; gap: 6px; }
+      .lines button { border-radius: 10px; text-align: left; }
+      .lines small { color: #a79db2; margin-left: 6px; }
+      .lines button.on small { color: #e3dcf5; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Lumi voice check</h1>
+      <select id="lang"></select>
+      <button id="all">Play all</button>
+      <span id="note"></span>
+    </header>
+    <main id="main"></main>
+    <script type="module">
+      // Dev-only: every spoken line and wordless sound, to listen to. Click one to
+      // hear it, or "Play all" to hear a whole language through. ?lang=fr opens on French.
+      const base = '../assets/voice/';
+      const $ = (id) => document.getElementById(id);
+      const player = new Audio();
+      let manifest = null, lang = null, queue = [], lit = null;
+
+      function play(id) {
+        lit?.classList.remove('on');
+        lit = document.querySelector(`[data-id="${id}"]`);
+        lit?.classList.add('on');
+        lit?.scrollIntoView({ block: 'nearest' });
+        player.src = `${base}${lang}/${id}.m4a?v=${manifest.build}`;
+        player.play();
+      }
+      player.onended = () => {
+        lit?.classList.remove('on');
+        if (queue.length) setTimeout(() => queue.length && play(queue.shift()), 350);
+        else $('all').classList.remove('on');
+      };
+
+      async function show(code) {
+        lang = code;
+        queue = [];
+        player.pause();
+        $('all').classList.remove('on');
+        manifest = await (await fetch(`${base}${code}/manifest.json`, { cache: 'no-store' })).json();
+        const total = Object.values(manifest.lines).reduce((s, l) => s + l.d, 0);
+        $('note').textContent = `${Object.keys(manifest.lines).length} lines, ${total.toFixed(0)}s, ${manifest.voice}`;
+        const main = $('main');
+        main.textContent = '';
+        for (const [group, ids] of Object.entries(manifest.groups)) {
+          const h = document.createElement('h2');
+          h.textContent = group;
+          const row = document.createElement('div');
+          row.className = 'lines';
+          for (const id of ids) {
+            const b = document.createElement('button');
+            b.dataset.id = id;
+            b.textContent = manifest.lines[id].t;
+            const d = document.createElement('small');
+            d.textContent = manifest.lines[id].d.toFixed(1) + 's';
+            b.append(d);
+            b.onclick = () => { queue = []; $('all').classList.remove('on'); play(id); };
+            row.append(b);
+          }
+          main.append(h, row);
+        }
+      }
+
+      $('all').onclick = () => {
+        if (queue.length) { queue = []; player.pause(); $('all').classList.remove('on'); lit?.classList.remove('on'); return; }
+        queue = Object.values(manifest.groups).flat();
+        $('all').classList.add('on');
+        play(queue.shift());
+      };
+      const { languages } = await (await fetch(base + 'languages.json', { cache: 'no-store' })).json();
+      for (const l of [...languages, { code: 'sounds', name: 'Wordless sounds' }]) $('lang').add(new Option(l.name, l.code));
+      $('lang').onchange = () => show($('lang').value);
+      const wanted = new URLSearchParams(location.search).get('lang');
+      $('lang').value = [...$('lang').options].some((o) => o.value === wanted) ? wanted : languages[0].code;
+      show($('lang').value);
+    </script>
+  </body>
+</html>

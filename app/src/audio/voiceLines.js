@@ -1,5 +1,7 @@
 // Plays Lumi's pre-rendered spoken lines (see tools/build-voice.mjs), in
 // whichever language has been chosen. Only that language's audio is downloaded.
+// Her wordless sounds (giggles, "wheee!") are a second set of the same kind,
+// stored as if "sounds" were a language.
 
 export class VoiceLines {
   /** @param {import('./engine.js').AudioEngine} engine */
@@ -16,6 +18,8 @@ export class VoiceLines {
     this.lastPick = new Map();
     this.current = null;
     this.generation = 0; // bumps on every language change, so stale downloads are dropped
+    /** Other players to hush when this one speaks, so she never talks over her own giggle. @type {VoiceLines[]} */
+    this.quiets = [];
   }
 
   /** Find out which languages are available. */
@@ -144,22 +148,23 @@ export class VoiceLines {
   }
 
   /**
-   * Say a line (by group name or exact id). Interrupts whatever she was saying.
+   * Say a line (by group name or exact id), `when` seconds from now. Interrupts whatever she was saying.
    * @returns {{id: string, duration: number}|null} what will be said, or null if nothing can be
    */
-  say(group, { gain = 1, rate = 1 } = {}) {
+  say(group, { gain = 1, rate = 1, when = 0 } = {}) {
     const id = this.pick(group);
     if (!id || !this.engine.ready) return null;
     this.stop();
+    for (const other of this.quiets) other.stop();
     const duration = this.duration(id) / rate;
     const ticket = {};
     const gen = this.generation;
     this.pending = ticket;
-    this.engine.markVoice(duration + 0.3);
+    this.engine.markVoice(when + duration + 0.3);
     this.#buffer(id, gen)
       .then((buf) => {
         if (this.pending !== ticket || gen !== this.generation) return; // something newer took over
-        this.current = this.engine.playBuffer(buf, { bus: 'voice', gain, rate });
+        this.current = this.engine.playBuffer(buf, { bus: 'voice', gain, rate, when });
       })
       .catch((e) => console.warn('[lumi] could not play', id, e.message));
     return { id, duration };

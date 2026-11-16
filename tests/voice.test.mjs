@@ -2,11 +2,13 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync, statSync } from 'node:fs';
 import { ROOT } from './helpers.mjs';
-import { LANGUAGES, DEFAULT_LANGUAGE } from '../tools/voice/index.mjs';
+import { LANGUAGES, DEFAULT_LANGUAGE, SOUNDS } from '../tools/voice/index.mjs';
+import { VOICE, REFERENCES, MOODS, GROUPS_WITH_A_MOOD, moodOf, signature, referenceFor } from '../tools/voice/persona.mjs';
 import { FIND_TARGETS } from '../app/src/brain/brain.js';
 import { FOODS } from '../app/src/props/food.js';
 import { BUBBLE_COLORS } from '../app/src/props/bubbles.js';
 import { VoiceLines } from '../app/src/audio/voiceLines.js';
+import { Vocal } from '../app/src/audio/vocal.js';
 import { STRINGS, stringsFor } from '../app/src/ui/strings.js';
 
 const VOICE_DIR = ROOT + 'app/assets/voice/';
@@ -21,6 +23,24 @@ test('Lumi speaks several languages, and English is the fallback', () => {
   assert.equal(listed.default, 'en');
   assert.deepEqual(listed.languages.map((l) => l.code), LANGUAGES.map((l) => l.code), 'run "npm run build:voice" to render every language');
   for (const l of listed.languages) assert.ok(l.name.length > 0);
+});
+
+test('Lumi has one voice, and every group of lines has a mood', () => {
+  assert.ok(VOICE.description.length > 40);
+  assert.ok(REFERENCES.en, 'the recording her voice is modelled on');
+  for (const [code, ref] of Object.entries(REFERENCES)) {
+    assert.ok(LANGUAGES.some((l) => l.code === code), `a recording for "${code}", which is not a language she speaks`);
+    assert.ok(statSync(referenceFor(code).url).size > 100_000, `${ref.file}: a few seconds of her at least`);
+    assert.ok(ref.text.length > 40, `${ref.file}: what is said in it`);
+  }
+  assert.equal(referenceFor('zh').url.href, referenceFor('en').url.href, 'languages without a recording of their own use the English one');
+  assert.notEqual(signature('Hola', 'hello', 'es'), signature('Hola', 'hello', 'en'), 'a line modelled on another recording is another recording');
+  for (const group of GROUPS_WITH_A_MOOD) assert.ok(group in english.lines, `persona.mjs gives a mood to "${group}", which is not a group of lines`);
+  for (const group of Object.keys(english.lines)) assert.ok(MOODS[moodOf(group)], `no direction for the mood of "${group}"`);
+  assert.equal(moodOf('night'), 'sleepy');
+  assert.equal(moodOf('hello'), 'happy', 'groups without a mood of their own are happy');
+  assert.notEqual(signature('Hello!', 'hello'), signature('Hello!', 'night'), 'the same words in another mood are another recording');
+  assert.notEqual(signature('Hello!', 'hello'), signature('Hello', 'hello'));
 });
 
 for (const lang of LANGUAGES) {
@@ -41,6 +61,7 @@ for (const lang of LANGUAGES) {
       variants.forEach((text, i) => {
         const id = `${group}_${i + 1}`;
         assert.equal(manifest.lines[id]?.t, text, `${lang.code}/${id} is out of date: run "npm run build:voice -- --lang ${lang.code}"`);
+        assert.equal(manifest.lines[id].h, signature(text, group, lang.code), `${lang.code}/${id} was recorded in another voice or mood: run "npm run build:voice -- --lang ${lang.code}"`);
         const file = `${VOICE_DIR}${lang.code}/${id}.m4a`;
         assert.ok(existsSync(file), `${lang.code}/${id}.m4a is missing`);
         assert.ok(statSync(file).size > 1500, `${lang.code}/${id}.m4a looks empty`);
@@ -125,4 +146,81 @@ test('the same line is not picked twice in a row', () => {
 test('missing panel text falls back to English rather than showing nothing', () => {
   assert.equal(stringsFor('xx').title, STRINGS.en.title);
   assert.equal(stringsFor('de').title, STRINGS.de.title);
+});
+
+test('her wordless sounds are recorded in the same voice, and short enough for the room they are given', () => {
+  const manifest = manifestOf('sounds');
+  assert.equal(manifest.voice, VOICE.model);
+  for (const [name, sound] of Object.entries(SOUNDS.lines)) {
+    assert.ok(sound.say.length >= 2, `${name} needs a couple of variants`);
+    assert.equal(manifest.groups[name]?.length, sound.say.length, `sound ${name}`);
+    sound.say.forEach((text, i) => {
+      const id = `${name}_${i + 1}`;
+      assert.equal(manifest.lines[id]?.h, signature(text, name, 'sounds', sound.direction), `sounds/${id} is out of date: run "npm run build:voice -- --lang sounds"`);
+      assert.ok(statSync(`${VOICE_DIR}sounds/${id}.m4a`).size > 1500, `sounds/${id}.m4a looks empty`);
+      const d = manifest.lines[id].d;
+      assert.ok(d > 0.2 && d <= sound.longest, `sounds/${id} lasts ${d}s (at most ${sound.longest}s)`);
+    });
+  }
+  const src = readFileSync(ROOT + 'app/src/audio/vocal.js', 'utf8');
+  for (const name of Object.keys(SOUNDS.lines)) assert.ok(src.includes(`#recorded('${name}'`), `vocal.js never plays the recorded "${name}"`);
+  for (const m of src.matchAll(/#recorded\('([a-z]+)'/g)) assert.ok(m[1] in SOUNDS.lines, `vocal.js wants a recorded "${m[1]}", which tools/voice/sounds.mjs does not have`);
+});
+
+test('a wordless sound is the recording when there is one, and the synthesizer otherwise', () => {
+  const played = [];
+  const vocal = new Vocal({ ready: false });
+  const synthesized = vocal.giggle();
+  assert.ok(synthesized > 0.4 && synthesized < 1.2, 'with no recordings, the synthesizer giggles');
+  vocal.recordings = {
+    say: (name, opts) => {
+      played.push({ name, ...opts });
+      return name === 'yawn' ? null : { id: name + '_1', duration: 1.2 };
+    },
+  };
+  assert.equal(vocal.giggle(0.5), 1.7, 'ends when the recording does');
+  assert.equal(vocal.whee(), 1.2);
+  assert.deepEqual(played.map((p) => p.name), ['giggle', 'whee']);
+  assert.equal(played[0].when, 0.5);
+  assert.ok(played[0].rate > 0.95 && played[0].rate < 1.06, 'a slightly different pitch every time');
+  assert.equal(vocal.yawn(), 0, 'falls back to the synthesizer (silent here) when the recording is missing');
+  assert.equal(vocal.snore(), 0, 'sounds without a recording never ask for one');
+  assert.deepEqual(played.map((p) => p.name), ['giggle', 'whee', 'yawn']);
+});
+
+test('speaking hushes a giggle, so she never talks over herself', async () => {
+  const started = [];
+  const engine = {
+    ready: true,
+    ctx: { decodeAudioData: async () => ({ duration: 1 }) },
+    markVoice() {},
+    playBuffer: (buf, opts) => {
+      started.push(opts);
+      return { stop() {} };
+    },
+  };
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) });
+  try {
+    const voice = new VoiceLines(engine), sounds = new VoiceLines(engine);
+    voice.manifest = manifestOf('en');
+    voice.lang = 'en';
+    sounds.manifest = manifestOf('sounds');
+    sounds.lang = 'sounds';
+    voice.quiets.push(sounds);
+    let hushed = 0;
+    sounds.current = { stop: () => hushed++ };
+    assert.ok(sounds.say('giggle', { when: 0.25 }), 'a giggle is on its way');
+    assert.equal(hushed, 1, 'a new sound replaces the last one');
+    assert.ok(voice.say('hello'));
+    assert.equal(sounds.pending, null, 'the giggle gives way to the words');
+    await new Promise((r) => setTimeout(r, 10));
+    assert.equal(started.length, 1, 'only the words are played');
+    assert.equal(started[0].when, 0);
+    sounds.say('whee', { when: 0.25 });
+    await new Promise((r) => setTimeout(r, 10));
+    assert.equal(started[1].when, 0.25, 'a sound can be asked for a moment ahead');
+  } finally {
+    globalThis.fetch = realFetch;
+  }
 });
