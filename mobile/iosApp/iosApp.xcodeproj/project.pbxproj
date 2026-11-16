@@ -174,118 +174,118 @@
 		4C0000000000000000000050 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = "NO";
-				CLANG_ENABLE_MODULES = "YES";
-				CLANG_ENABLE_OBJC_ARC = "YES";
-				COPY_PHASE_STRIP = "NO";
-				ENABLE_STRICT_OBJC_MSGSEND = "YES";
-				GCC_NO_COMMON_BLOCKS = "YES";
-				IPHONEOS_DEPLOYMENT_TARGET = "16.4";
-				SDKROOT = "iphoneos";
-				SWIFT_VERSION = "5.0";
-				DEBUG_INFORMATION_FORMAT = "dwarf";
-				ENABLE_TESTABILITY = "YES";
-				GCC_OPTIMIZATION_LEVEL = "0";
-				ONLY_ACTIVE_ARCH = "YES";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		4C0000000000000000000051 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = "NO";
-				CLANG_ENABLE_MODULES = "YES";
-				CLANG_ENABLE_OBJC_ARC = "YES";
-				COPY_PHASE_STRIP = "NO";
-				ENABLE_STRICT_OBJC_MSGSEND = "YES";
-				GCC_NO_COMMON_BLOCKS = "YES";
-				IPHONEOS_DEPLOYMENT_TARGET = "16.4";
-				SDKROOT = "iphoneos";
-				SWIFT_VERSION = "5.0";
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				SWIFT_COMPILATION_MODE = "wholemodule";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				VALIDATE_PRODUCT = "YES";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
 		4C0000000000000000000052 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "Lumi";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.babylumi.app";
-				MARKETING_VERSION = "1.1.0";
-				CURRENT_PROJECT_VERSION = "2";
-				CODE_SIGN_STYLE = "Automatic";
-				DEVELOPMENT_TEAM = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
-				GENERATE_INFOPLIST_FILE = "YES";
-				INFOPLIST_FILE = "iosApp/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Lumi";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Lumi listens so she can say your words back in her own little voice. Nothing is recorded, saved or sent anywhere.";
-				INFOPLIST_KEY_UIStatusBarHidden = "YES";
-				INFOPLIST_KEY_UIRequiresFullScreen = "YES";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = "YES";
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = "NO";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = MPZ6YG5NR7;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					"Shared",
-				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iosApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Lumi;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Lumi listens so she can say your words back in her own little voice. Nothing is recorded, saved or sent anywhere.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				ENABLE_USER_SCRIPT_SANDBOXING = "NO";
-				SUPPORTS_MACCATALYST = "NO";
+				MARKETING_VERSION = 1.1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Shared,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.babylumi.app;
+				PRODUCT_NAME = Lumi;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		4C0000000000000000000053 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				PRODUCT_NAME = "Lumi";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.babylumi.app";
-				MARKETING_VERSION = "1.1.0";
-				CURRENT_PROJECT_VERSION = "2";
-				CODE_SIGN_STYLE = "Automatic";
-				DEVELOPMENT_TEAM = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon";
-				GENERATE_INFOPLIST_FILE = "YES";
-				INFOPLIST_FILE = "iosApp/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Lumi";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Lumi listens so she can say your words back in her own little voice. Nothing is recorded, saved or sent anywhere.";
-				INFOPLIST_KEY_UIStatusBarHidden = "YES";
-				INFOPLIST_KEY_UIRequiresFullScreen = "YES";
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = "YES";
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = "NO";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = MPZ6YG5NR7;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-framework",
-					"Shared",
-				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = iosApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Lumi;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Lumi listens so she can say your words back in her own little voice. Nothing is recorded, saved or sent anywhere.";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				ENABLE_USER_SCRIPT_SANDBOXING = "NO";
-				SUPPORTS_MACCATALYST = "NO";
+				MARKETING_VERSION = 1.1.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					Shared,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.babylumi.app;
+				PRODUCT_NAME = Lumi;
+				SUPPORTS_MACCATALYST = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
